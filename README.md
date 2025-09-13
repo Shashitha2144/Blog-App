@@ -28,7 +28,7 @@ usecaseDiagram
     Author --> (Publish their own blog posts )
     Author --> (View their own blog post analytics)
 
-### Database Diagram
+### Database Diagram (screenshot of DBMS tool database diagram)
 
 ![alt text](image.png)
 
