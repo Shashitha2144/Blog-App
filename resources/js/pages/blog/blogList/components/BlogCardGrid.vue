@@ -17,7 +17,7 @@ import BlogCard from './BlogCard.vue'
                 role="listitem"
                 class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transform transition duration-200 hover:-translate-y-1"
             >
-                <BlogCard :post="post" />
+                <BlogCard :posts="post" />
             </div>
         </div>
 

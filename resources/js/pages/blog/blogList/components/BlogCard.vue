@@ -1,3 +1,13 @@
+<script setup>
+
+defineProps({
+  posts:Object,
+})
+
+</script>
+
+
+
 <template>
   <article class="group relative overflow-hidden rounded-xl border border-[#F5E7EB] bg-white shadow-sm hover:shadow transition-shadow">
     <!-- Cover Image -->
@@ -5,7 +15,7 @@
       <img
         class="absolute inset-0 w-full h-full object-cover"
         :src="post?.image ?? 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1280&auto=format&fit=crop'"
-        :alt="post?.title ?? 'Post cover'"
+        :alt="post.title ?? 'Post cover'"
       />
       <span
         class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#10B981]/10 text-[#10B981] px-2.5 py-1 text-xs font-semibold backdrop-blur"
@@ -28,7 +38,7 @@
       <!-- Title -->
       <a :href="post?.url ?? '#'" class="no-underline">
         <h3 class="text-lg font-bold tracking-tight text-[#111827] group-hover:text-[#1E5A8A]">
-          {{ post?.title ?? 'Untitled post' }}
+          {{ post.posts?.title ?? 'Untitled post' }}
         </h3>
       </a>
 
