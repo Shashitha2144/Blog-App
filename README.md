@@ -1,5 +1,13 @@
 # Blog App
 
+### Chnages
+
+- add database relations
+- Add header UI
+- add blog Grid
+- Add Blog catagory bar
+
+
 ### rough skatch for use case Diagram
 
 usecaseDiagram
@@ -23,3 +31,4 @@ usecaseDiagram
 ### Database Diagram
 
 ![alt text](image.png)
+
