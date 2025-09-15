@@ -1,12 +1,12 @@
 <template lang="">
-    <div class="mt-4 flex flex-wrap items-center gap-4 text-sm">
+   <div class="mt-4 flex flex-wrap items-center gap-4 text-sm">
           <div class="inline-flex items-center gap-2">
             <span class="grid h-9 w-9 place-items-center rounded-full bg-[#1E5A8A] text-white text-[12px] font-semibold">
               DS
             </span>
             <div class="leading-5">
-              <div class="font-semibold text-[#111827]">D. S. P. S. U. De Silva</div>
-              <div class="text-[#6B7280]">Author</div>
+              <div class="font-semibold text-[#111827]"> {{post.user?.name ?? 'Unknown auther' }}</div>
+              <div class="text-[#6B7280]">Author</div> 
             </div>
           </div>
 
@@ -44,6 +44,14 @@
           </div>
         </div>
 </template>
+
+
+
 <script setup>
+
+defineProps({
+  post:Object,
+})
+
 
 </script>

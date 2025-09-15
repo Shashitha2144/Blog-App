@@ -6,6 +6,7 @@
 - Add header UI
 - add blog Grid
 - Add Blog catagory bar
+- Add Blog view Page
 
 
 ### rough skatch for use case Diagram

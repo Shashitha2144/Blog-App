@@ -1,17 +1,23 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia'
 
 defineProps({
-  posts:Object,
+  post:Object,
 })
+
+function viewPost(id) {
+// console.log(id);
+Inertia.visit(`/blogs/${id}`)
+}
 
 </script>
 
-
+<!-- :href="post?.url ?? '#'" -->
 
 <template>
   <article class="group relative overflow-hidden rounded-xl border border-[#F5E7EB] bg-white shadow-sm hover:shadow transition-shadow">
     <!-- Cover Image -->
-    <a :href="post?.url ?? '#'" class="block relative w-full pt-[56.25%] bg-[#F9FAFB]">
+    <a @click="viewPost(post.id)"  class="block relative w-full pt-[56.25%] bg-[#F9FAFB]">
       <img
         class="absolute inset-0 w-full h-full object-cover"
         :src="post?.image ?? 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1280&auto=format&fit=crop'"
@@ -38,7 +44,7 @@ defineProps({
       <!-- Title -->
       <a :href="post?.url ?? '#'" class="no-underline">
         <h3 class="text-lg font-bold tracking-tight text-[#111827] group-hover:text-[#1E5A8A]">
-          {{ post.posts?.title ?? 'Untitled post' }}
+          {{ post.title ?? 'Untitled post' }}
         </h3>
       </a>
 

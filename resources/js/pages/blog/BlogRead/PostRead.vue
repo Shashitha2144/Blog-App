@@ -4,6 +4,12 @@ import Breadcrumb from './components/Breadcrumb.vue';
 import Comments from './components/Comments.vue';
 import MetaRow from './components/MetaRow.vue';
 import RelatedPosts from './components/RelatedPosts.vue';
+
+const props = defineProps({
+    post : Object,
+});
+
+
 </script>
 
 <template>
@@ -30,11 +36,11 @@ import RelatedPosts from './components/RelatedPosts.vue';
 
                 <!-- Title -->
                 <h1 class="text-2xl font-extrabold tracking-tight text-[#111827] sm:text-3xl lg:text-4xl">
-                    Building a Blog with Laravel & Vue (MVC)
+                    {{props.post ?.title ?? "Building (MVC)" }} 
                 </h1>
 
                 <!-- Meta row -->
-                <MetaRow />
+                <MetaRow :post="props.post"/>
             </header>
 
             <!-- Cover image -->
@@ -48,33 +54,17 @@ import RelatedPosts from './components/RelatedPosts.vue';
                 </div>
                 <figcaption class="sr-only">Illustrative cover for the article</figcaption>
             </figure>
-
+{{ console.log(props.post) }}
             <!-- Content -->
             <div class="px-5 pb-6 sm:px-8 sm:pb-8">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-                pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
-                Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent
-                per conubia nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
-                pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus
-                fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class
-                aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing
-                elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean
-                sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc
-                posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos. Lorem ipsum
-                dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus
-                duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa
-                nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
-                nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem
-                placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus
-                nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti
-                sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+                {{ props?.post?.content }}
 
                 <!-- Tags -->
                 <Tags />
             </div>
 
-            <!-- Author card -->
-            <AuttherCard />
+
+            
 
             <!-- Comments -->
             <Comments />
@@ -82,20 +72,5 @@ import RelatedPosts from './components/RelatedPosts.vue';
 
         <RelatedPosts />
 
-        <!-- Prev / Next navigation -->
-        <!-- <nav class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2" aria-label="Post navigation">
-      <a href="/post/previous" class="group rounded-lg border border-[#F5E7EB] p-4 hover:bg-[#F9FAFB]">
-        <div class="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">Previous</div>
-        <div class="mt-1 line-clamp-2 text-[#111827] group-hover:text-[#1E5A8A]">
-          Securing Laravel APIs with Sanctum for SPAs
-        </div>
-      </a>
-      <a href="/post/next" class="group rounded-lg border border-[#F5E7EB] p-4 hover:bg-[#F9FAFB]">
-        <div class="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">Next</div>
-        <div class="mt-1 line-clamp-2 text-[#111827] group-hover:text-[#1E5A8A]">
-          Vue 3 Composition Patterns for Scalable UIs
-        </div>
-      </a>
-    </nav> -->
     </main>
 </template>
