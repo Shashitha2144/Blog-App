@@ -1,15 +1,12 @@
 <script setup>
-import AuttherCard from './components/AuttherCard.vue';
 import Breadcrumb from './components/Breadcrumb.vue';
 import Comments from './components/Comments.vue';
 import MetaRow from './components/MetaRow.vue';
 import RelatedPosts from './components/RelatedPosts.vue';
 
 const props = defineProps({
-    post : Object,
+    post: Object,
 });
-
-
 </script>
 
 <template>
@@ -34,13 +31,12 @@ const props = defineProps({
                     </span>
                 </div>
 
-                <!-- Title -->
                 <h1 class="text-2xl font-extrabold tracking-tight text-[#111827] sm:text-3xl lg:text-4xl">
-                    {{props.post ?.title ?? "Building (MVC)" }} 
+                    {{ props.post?.title ?? 'Building (MVC)' }}
                 </h1>
 
                 <!-- Meta row -->
-                <MetaRow :post="props.post"/>
+                <MetaRow :post="props.post" />
             </header>
 
             <!-- Cover image -->
@@ -54,23 +50,18 @@ const props = defineProps({
                 </div>
                 <figcaption class="sr-only">Illustrative cover for the article</figcaption>
             </figure>
-{{ console.log(props.post) }}
+
             <!-- Content -->
             <div class="px-5 pb-6 sm:px-8 sm:pb-8">
-                {{ props?.post?.content }}
 
                 <!-- Tags -->
                 <Tags />
             </div>
 
-
-            
-
             <!-- Comments -->
-            <Comments />
+            <Comments :post="props.post"/>
         </article>
 
         <RelatedPosts />
-
     </main>
 </template>

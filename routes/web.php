@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/blogs/{id}', [PostController::class, 'show'])->name('blogs.show');
 });
 
-
+Route::middleware('auth')->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/comment/{id}', [CommentController::class, 'show'])->name('comment.show');
+});
 
 
 require __DIR__ . '/settings.php';

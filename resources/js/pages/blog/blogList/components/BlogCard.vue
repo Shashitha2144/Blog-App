@@ -1,5 +1,5 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
 
 defineProps({
   post:Object,
@@ -7,7 +7,7 @@ defineProps({
 
 function viewPost(id) {
 // console.log(id);
-Inertia.visit(`/blogs/${id}`)
+router.visit(`/blogs/${id}`)
 }
 
 </script>

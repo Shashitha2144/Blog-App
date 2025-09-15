@@ -44,7 +44,7 @@ class PostController extends Controller
     public function show($id)
     {
 
-        $post = Post::with('user')->findOrFail($id);
+        $post = Post::with('user', 'comment')->findOrFail($id);
         return Inertia::render('blog/BlogRead/PostRead', [
             'post' => $post,
         ]);

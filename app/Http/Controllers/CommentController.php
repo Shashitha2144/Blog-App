@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\comment;
+use Dom\Comment as DomComment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -12,7 +13,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = comment::find();
     }
 
     /**
@@ -28,16 +29,21 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'content' => 'required|string',
+            'post_id' => 'required|integer|exists:posts,id',
+        ]);
+
+        $data['user_id'] = $request->user()->id;
+        \App\Models\comment::create($data);
+
+        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(comment $comment)
-    {
-        //
-    }
+    public function show(comment $comment) {}
 
     /**
      * Show the form for editing the specified resource.
