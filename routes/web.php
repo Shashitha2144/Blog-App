@@ -17,8 +17,12 @@ Route::get('dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/blogs', [PostController::class, 'index'])->name('blogs');
     Route::get('/blogs/{id}', [PostController::class, 'show'])->name('blogs.show');
+    Route::put('/post/{post}', [PostController::class, 'update'])
+        ->name('posts.update')
+        ->middleware('auth');
     Route::post('/blogs/publish', [PostController::class, 'store'])->name('blogs.store');
     Route::get('/author/{id}', [PostController::class, 'author'])->name('author.profile');
+    Route::Delete('/post/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 });
 
 Route::middleware('auth')->group(function () {

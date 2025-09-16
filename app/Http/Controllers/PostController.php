@@ -26,9 +26,9 @@ class PostController extends Controller
 
     public function author($id = null)
     {
-    // if no id provided, show posts for the authenticated user
-    $user = auth()->user();
-    $id = $id ?? ($user?->id);
+        // if no id provided, show posts for the authenticated user
+        $user = auth()->user();
+        $id = $id ?? ($user?->id);
 
         $author = User::findOrFail($id);
         $posts = Post::where('user_id', $id)
@@ -38,7 +38,7 @@ class PostController extends Controller
         return Inertia::render('Author', [
             'author' => $author,
             'posts' => $posts,
-            ]);
+        ]);
     }
 
     /**
@@ -94,14 +94,27 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+
+
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+        'status' => 'nullable|string',
+    ]);
+
+    $post->update($data);
+
+    return back();
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back();
     }
 }
