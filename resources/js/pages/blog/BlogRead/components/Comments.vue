@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const { post } = defineProps({
@@ -16,9 +16,15 @@ const form = useForm({
 
 function submitForm() {
     form.post('/comments', {
-        onSuccess: () => form.reset('content'),
+        onSuccess: () => {
+            form.reset('content');
+            router.visit(`/blogs/${post.id}`);
+        },
     });
 }
+
+
+
 </script>
 
 <template lang="">

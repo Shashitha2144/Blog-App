@@ -46,6 +46,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return to_route('dashboard');
+       return to_route(
+            ($user->role === 'admin')
+                ? 'admin.dashboard'
+                : (in_array(($user->role ?? ''), ['author', 'publisher'], true) ? 'author.dashboard' : 'dashboard')
+        );
     }
 }

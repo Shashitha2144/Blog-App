@@ -13,7 +13,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = comment::find();
+        $comments = comment::with(['user','post'])->latest()->get();
+        return response() -> json($comments);
     }
 
     /**
@@ -43,7 +44,9 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(comment $comment) {}
+    public function show(comment $comment) {
+
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -58,7 +61,12 @@ class CommentController extends Controller
      */
     public function update(Request $request, comment $comment)
     {
-        //
+        $data = $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $comment->update($data);
+        return redirect()->back();
     }
 
     /**

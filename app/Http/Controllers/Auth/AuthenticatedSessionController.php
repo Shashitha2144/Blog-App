@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,8 +46,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended($this->redirectPathFor($user));
     }
+
+    private function redirectPathFor(User $user): string
+   {
+       if (($user->role ?? null) === 'Admin') {
+           return route('admin.dashboard', absolute: false);
+       } 
+       if (in_array(($user->role ?? ''), ['Author', 'publisher'], true)) {
+           return route('author.dashboard', absolute: false);
+       }
+       return route('blogs', absolute: false);
+   }
 
     /**
      * Destroy an authenticated session.
