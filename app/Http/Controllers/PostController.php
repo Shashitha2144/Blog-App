@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,6 +23,24 @@ class PostController extends Controller
         );
     }
 
+
+    public function author($id = null)
+    {
+    // if no id provided, show posts for the authenticated user
+    $user = auth()->user();
+    $id = $id ?? ($user?->id);
+
+        $author = User::findOrFail($id);
+        $posts = Post::where('user_id', $id)
+            ->with(['user', 'comment'])
+            ->latest()->get();
+
+        return Inertia::render('Author', [
+            'author' => $author,
+            'posts' => $posts,
+            ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -35,7 +54,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'content' => 'required|string',
+            'title' => 'required|string',
+            'status' => 'nullable|string',
+        ]);
+
+        $data['user_id'] = $request->user()->id;
+        $data['status'] = $data['status'] ?? 'Pending';
+        $data['publishedAt'] = $data['publishedAt'] ?? now();
+
+        Post::create($data);
+
+        return redirect()->back();
     }
 
     /**

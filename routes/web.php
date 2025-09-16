@@ -17,12 +17,17 @@ Route::get('dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/blogs', [PostController::class, 'index'])->name('blogs');
     Route::get('/blogs/{id}', [PostController::class, 'show'])->name('blogs.show');
+    Route::post('/blogs/publish', [PostController::class, 'store'])->name('blogs.store');
+    Route::get('/author/{id}', [PostController::class, 'author'])->name('author.profile');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::get('/comment/{id}', [CommentController::class, 'show'])->name('comment.show');
 });
+
+Route::get('/author/{id?}', [PostController::class, 'author'])
+    ->name('author.profile');
 
 
 
@@ -34,6 +39,11 @@ Route::get('/admin', function () {
 Route::get('/author', function () {
     return Inertia::render('Author'); // swap to a dedicated author page later
 })->middleware(['auth', 'verified', 'can:access-author'])->name('author.dashboard');
+
+// Route::get('/author', function () {
+//     return Inertia::render('Author'); // swap to a dedicated author page later
+// })->middleware(['auth', 'verified', 'can:access-author'])->name('author.dashboard');
+
 
 
 require __DIR__ . '/settings.php';

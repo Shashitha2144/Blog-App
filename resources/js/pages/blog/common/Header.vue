@@ -5,7 +5,6 @@ const page = usePage();
 
 const authUser = computed(() => page.props.auth?.user ?? null);
 const name = computed(() => authUser.value?.role?? 'Guest');
-console.log(name);
 </script>
 
 <template>

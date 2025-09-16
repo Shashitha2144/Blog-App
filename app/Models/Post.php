@@ -13,18 +13,22 @@ class Post extends Model
         'title',
         'content',
         'status',
+        'user_id',
+        'publishedAt',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function comment(){
+    public function comment()
+    {
         return $this->hasMany(comment::class);
     }
 
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsToMany(category::class);
     }
-
 }
