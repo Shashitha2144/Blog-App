@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,12 +34,14 @@ Route::middleware('auth')->group(function () {
 Route::get('/author/{id?}', [PostController::class, 'author'])
     ->name('author.profile');
 
+    // admin tasks
+Route::middleware(['auth', 'verified', 'can:access-admin'])->group(function () {
+    Route::get('/admin', [App\Http\Controllers\UserController::class, 'index'])->name('admin.dashboard');
+    Route::put('/admin/user/{user}',[App\Http\Controllers\UserController::class, 'update'])->name('admin.update');
+    Route::post('/admin/user',[App\Http\Controllers\UserController::class, 'store'])->name('admin.store');
+    Route::delete('/admin/{user}',[App\Http\Controllers\UserController::class, 'destroy'])->name('admin.destroy');
+});
 
-
-// Role dashboards
-Route::get('/admin', function () {
-    return Inertia::render('Admin'); // swap to a dedicated admin page later
-})->middleware(['auth', 'verified', 'can:access-admin'])->name('admin.dashboard');
 
 Route::get('/author', function () {
     return Inertia::render('Author'); // swap to a dedicated author page later

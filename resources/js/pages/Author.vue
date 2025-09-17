@@ -45,6 +45,10 @@ function handleSubmit() {
     }
 }
 
+async function signOut(){
+  await router.post(('logout'));
+}
+
 async function deletePost(id) {
     console.log(id);
     try {
@@ -109,6 +113,13 @@ async function editPost() {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                         New Post
+                    </button>
+                    <button
+                        @click="signOut"
+                        class="inline-flex items-center gap-2 rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-gray-700"
+                    >
+                        
+                        Sign out
                     </button>
                 </div>
             </header>
