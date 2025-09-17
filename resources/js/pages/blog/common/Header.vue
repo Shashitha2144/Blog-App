@@ -1,10 +1,15 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { router } from '@inertiajs/vue3';
 const page = usePage();
 
 const authUser = computed(() => page.props.auth?.user ?? null);
-const name = computed(() => authUser.value?.role?? 'Guest');
+const name = computed(() => authUser.value?.name?? 'Guest');
+
+async function signOut(){
+  await router.post(('logout'));
+}
 </script>
 
 <template>
@@ -49,7 +54,7 @@ const name = computed(() => authUser.value?.role?? 'Guest');
 
                 <!-- Desktop Nav -->
                 <nav class="ml-4 hidden items-center gap-2 md:flex" aria-label="Primary">
-                    <a href="/" class="rounded px-2 py-1 text-[#6B7280] hover:text-[#111827]">{{ name }}</a>
+                    <a href="/" class="rounded px-2 py-1 text-[#6B7280] hover:text-[#111827]">Home</a>
                     <a href="/blogs" class="rounded px-2 py-1 text-[#6B7280] hover:text-[#111827]">Blog</a>
                     <a href="/about" class="rounded px-2 py-1 text-[#6B7280] hover:text-[#111827]">About</a>
                     <a href="/contact" class="rounded px-2 py-1 text-[#6B7280] hover:text-[#111827]">Contact</a>
@@ -90,8 +95,8 @@ const name = computed(() => authUser.value?.role?? 'Guest');
                 </button>
 
                 <!-- Auth links (visual only) -->
-                <a href="/login" class="px-2 text-[#6B7280] hover:text-[#111827]">Log in</a>
-                <a href="/register" class="px-2 text-[#6B7280] hover:text-[#111827]">Sign up</a>
+                <a href="/login" class="px-2 text-[#6B7280] hover:text-[#111827]">{{name}}</a>
+                <a @click="signOut" class="cursor-pointer px-2 text-[#6B7280] hover:text-[#111827]">Sign Out</a>
             </div>
         </div>
 
