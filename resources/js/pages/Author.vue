@@ -1,40 +1,74 @@
-<script setup>
+<script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
+import { User } from 'lucide-vue-next';
 import { ref } from 'vue';
+import Button from './blog/common/Button.vue';
 
-defineProps({
-    posts: Array,
-    author: Object,
+interface Post {
+    id: number;
+    title: string;
+    content: string;
+    publishedAt?: string;
+    status?: string;
+    user_id?: number;
+}
+
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    image_url:string;
+    is_published:boolean;
+}
+const { posts, author } = defineProps<{ posts: Post[]; author: User }>();
+
+const showModal = ref<boolean>(false);
+const editingPost = ref<Post | null>(null);
+const isEditModel = ref<boolean>(false);
+
+const createForm = useForm({
+    title: '',
+    content: '',
+    status: 'Pending',
+    user_id: author?.id ?? 1,
+    image_url:"https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2014/04/write-a-great-blog-post.jpg",
+    is_published:false,
 });
 
-const showModal = ref(false);
-const editingPost = ref(null);
-const isEditModel = ref(false);
+const editForm = useForm({
+    title: '',
+    content: '',
+    status: 'Pending',
+});
 
 function openModal() {
     showModal.value = true;
+    createForm.reset();
+    isEditModel.value = false;
+    editingPost.value = null;
 }
 
 function closeModal() {
     showModal.value = false;
 }
 
-const form = useForm({
-    title: '',
-    content: '',
-    status: 'Pending',
-    user_id: 1,
-});
-
-function submit() {
-    form.post('/blogs/publish', {
-        preserveScroll: true,
-        onSuccess: () => {
-            closeModal();
-            form.reset();
-            router.reload();
-        },
-    });
+async function submit() {
+    try {
+        await createForm.post('/blogs/publish', {
+            preserveScroll: true,
+            onSuccess: () => {
+                closeModal();
+                createForm.reset();
+                router.reload();
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 function handleSubmit() {
@@ -45,43 +79,50 @@ function handleSubmit() {
     }
 }
 
-async function signOut(){
-  await router.post(('logout'));
+async function signOut() {
+    await router.post('logout');
 }
 
-async function deletePost(id) {
-    console.log(id);
+async function deletePost(id: number) {
     try {
-        await router.delete(`/post/${id}`);
+        await router.delete(`/post/${id}`, {
+            onSuccess: () => {
+                router.reload();
+            },
+        });
     } catch (e) {
         console.error('Faild to delete post ', e);
-        alert('faild to delete post');
     }
 }
-async function openEditPost(post) {
+async function openEditPost(post: Post) {
     editingPost.value = { ...post };
     isEditModel.value = true;
+    showModal.value = true;
+
+    editForm.title = post.title;
+    editForm.content = post.content;
+    editForm.status = post.status ?? 'Pending';
     showModal.value = true;
 }
 
 async function editPost() {
-    try {
-        // use the same base path you use for delete (/post/{id}) — adjust if your route differs
-        await router.put(`/post/${editingPost.value.id}`, {
-            title: editingPost.value.title,
-            content: editingPost.value.content,
-            status: editingPost.value.status ?? 'pending',
-        });
-
+  if (!editingPost.value) return;
+  try {
+      
+    await editForm.put(`/post/${editingPost.value.id}`, {
+      onSuccess: () => {
         closeModal();
         router.reload();
-    } catch (e) {
-        console.error('Failed to update post', e);
-        alert('Failed to update post');
-    }
+      },
+      onError: (errors: any) => {
+        console.error(errors);
+      },
+    });
+  } catch (e) {
+    console.error('Failed to update post', e);
+  }
 }
 
-// console.log(posts);
 </script>
 
 <template lang="">
@@ -105,22 +146,22 @@ async function editPost() {
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button
-                        @click="openModal"
+                    
+                    <Button 
+                                            @click="openModal"
                         class="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700"
                     >
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                         New Post
-                    </button>
-                    <button
+                    </Button>
+                    <Button variant="danger"
                         @click="signOut"
                         class="inline-flex items-center gap-2 rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-gray-700"
                     >
-                        
                         Sign out
-                    </button>
+                    </Button>
                 </div>
             </header>
 
@@ -160,10 +201,10 @@ async function editPost() {
                                         <span>3 min read</span>
                                     </div>
                                     <div class="flex gap-2">
-                                        <button @click="openEditPost(post)" class="rounded bg-indigo-50 px-2 py-1 text-xs text-indigo-600">
+                                        <Button variant="secondary" @click="openEditPost(post)">
                                             Edit
-                                        </button>
-                                        <button @click="deletePost(post.id)" class="rounded bg-red-50 px-2 py-1 text-xs text-red-600">Delete</button>
+                                        </Button>
+                                        <Button variant="danger"  @click="deletePost(post.id)" >Delete</Button>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +224,7 @@ async function editPost() {
             <form @submit.prevent="handleSubmit" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Title</label>
-                    <input v-if="!isEditModel" v-model="form.title" type="text" class="mt-1 block w-full rounded border-gray-200" required />
+                    <input v-if="!isEditModel" v-model="createForm.title" type="text" class="mt-1 block w-full rounded border-gray-200" required />
                     <input v-if="isEditModel" v-model="editingPost.title" type="text" class="mt-1 block w-full rounded border-gray-200" required />
                 </div>
 
@@ -191,7 +232,7 @@ async function editPost() {
                     <label class="block text-sm font-medium text-gray-700">Content</label>
                     <textarea
                         v-if="!isEditModel"
-                        v-model="form.content"
+                        v-model="createForm.content"
                         rows="6"
                         class="mt-1 block w-full rounded border-gray-200"
                         required
@@ -206,15 +247,15 @@ async function editPost() {
                 </div>
 
                 <div class="flex items-center justify-end gap-2">
-                    <button type="button" @click="closeModal" class="rounded bg-gray-100 px-4 py-2">Cancel</button>
-                    <button v-if="!isEditModel" type="submit" :disabled="form.processing" class="rounded bg-indigo-600 px-4 py-2 text-white">
-                        <span v-if="!form.processing">Publish</span>
+                    <Button type="Button" @click="closeModal" class="rounded bg-gray-100 px-4 py-2">Cancel</Button>
+                    <Button v-if="!isEditModel" type="submit" :disabled="createForm.processing" class="rounded bg-indigo-600 px-4 py-2 text-white">
+                        <span v-if="!createForm.processing">Publish</span>
                         <span v-else>Publishing…</span>
-                    </button>
-                    <button v-if="isEditModel" type="editPost" :disabled="form.processing" class="rounded bg-indigo-600 px-4 py-2 text-white">
-                        <span v-if="!form.processing">Publish</span>
+                    </Button>
+                    <Button v-if="isEditModel" type="submit" :disabled="editForm.processing" class="rounded bg-indigo-600 px-4 py-2 text-white">
+                        <span v-if="!editForm.processing">Publish</span>
                         <span v-else>Publishing…</span>
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>
