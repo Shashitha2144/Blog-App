@@ -1,4 +1,5 @@
 <script setup>
+import UserLayout from '@/layouts/UserLayout.vue';
 import Breadcrumb from './components/Breadcrumb.vue';
 import Comments from './components/Comments.vue';
 import MetaRow from './components/MetaRow.vue';
@@ -7,6 +8,8 @@ import RelatedPosts from './components/RelatedPosts.vue';
 const props = defineProps({
     post: Object,
 });
+
+defineOptions({ layout: UserLayout });
 </script>
 
 <template>

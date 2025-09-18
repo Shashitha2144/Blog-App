@@ -1,4 +1,5 @@
 <script setup>
+import UserLayout from '@/layouts/UserLayout.vue';
 import Header from '../common/Header.vue';
 import BlogCardGrid from './components/BlogCardGrid.vue';
 
@@ -7,6 +8,8 @@ import blogCategories from './components/BlogCatagories.vue';
 defineProps({
     posts: Array,
 });
+
+defineOptions({ layout: UserLayout });
 </script>
 
 <template>

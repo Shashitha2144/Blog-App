@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import UserLayout from '@/layouts/UserLayout.vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { User } from 'lucide-vue-next';
 import { ref } from 'vue';
@@ -18,8 +19,8 @@ interface User {
     name: string;
     email: string;
     role: string;
-    image_url:string;
-    is_published:boolean;
+    image_url: string;
+    is_published: boolean;
 }
 const { posts, author } = defineProps<{ posts: Post[]; author: User }>();
 
@@ -32,7 +33,7 @@ const createForm = useForm({
     content: '',
     status: 'Pending',
     user_id: author?.id ?? 1,
-    image_url: "https://cdn-icons-png.flaticon.com/512/2593/2593549.png",
+    image_url: 'https://cdn-icons-png.flaticon.com/512/2593/2593549.png',
     is_published: false,
 });
 
@@ -118,13 +119,14 @@ async function editPost() {
         },
         onError: (errors) => {
             console.error(errors);
-        }
+        },
     });
 }
 
+defineOptions({ layout: UserLayout });
 </script>
 
-<template lang="">
+<template>
     <div>
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <!-- Header -->
@@ -145,9 +147,8 @@ async function editPost() {
                 </div>
 
                 <div class="flex items-center gap-3">
-                    
-                    <Button 
-                                            @click="openModal"
+                    <Button
+                        @click="openModal"
                         class="inline-flex items-center gap-2 rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700"
                     >
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +156,8 @@ async function editPost() {
                         </svg>
                         New Post
                     </Button>
-                    <Button variant="danger"
+                    <Button
+                        variant="danger"
                         @click="signOut"
                         class="inline-flex items-center gap-2 rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-gray-700"
                     >
@@ -200,10 +202,8 @@ async function editPost() {
                                         <span>3 min read</span>
                                     </div>
                                     <div class="flex gap-2">
-                                        <Button variant="secondary" @click="openEditPost(post)">
-                                            Edit
-                                        </Button>
-                                        <Button variant="danger"  @click="deletePost(post.id)" >Delete</Button>
+                                        <Button variant="secondary" @click="openEditPost(post)"> Edit </Button>
+                                        <Button variant="danger" @click="deletePost(post.id)">Delete</Button>
                                     </div>
                                 </div>
                             </div>
@@ -236,13 +236,7 @@ async function editPost() {
                         class="mt-1 block w-full rounded border-gray-200"
                         required
                     ></textarea>
-                    <textarea
-                        v-else
-                        v-model="editForm.content"
-                        rows="6"
-                        class="mt-1 block w-full rounded border-gray-200"
-                        required
-                    ></textarea>
+                    <textarea v-else v-model="editForm.content" rows="6" class="mt-1 block w-full rounded border-gray-200" required></textarea>
                 </div>
 
                 <div class="flex items-center justify-end gap-2">
