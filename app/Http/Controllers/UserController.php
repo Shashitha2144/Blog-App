@@ -76,6 +76,8 @@ class UserController extends Controller
             'password' => 'string|min:8',
         ]);
         $data['password'] = bcrypt($data['password']);
+        $data['image_url'] = $data['image_url'] ?? "https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2014/04/write-a-great-blog-post.jpg";
+        $data['is_published'] = $data['is_published'] ?? false;
 
 
 

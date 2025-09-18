@@ -63,7 +63,8 @@ class PostController extends Controller
         $data['user_id'] = $request->user()->id;
         $data['status'] = $data['status'] ?? 'Pending';
         $data['publishedAt'] = $data['publishedAt'] ?? now();
-
+        $data['image_url'] = $data['image_url'] ?? "https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2014/04/write-a-great-blog-post.jpg";
+        $data['is_published'] = $data['is_published'] ?? false;
         Post::create($data);
 
         return redirect()->back();
@@ -96,16 +97,15 @@ class PostController extends Controller
     {
 
 
-    $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-        'status' => 'nullable|string',
-    ]);
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'status' => 'nullable|string',
+        ]);
 
-    $post->update($data);
+        $post->update($data);
 
-    return back();
-        
+        return back();
     }
 
     /**

@@ -1,7 +1,8 @@
-<script setup>
+<script setup >
 import password from '@/routes/password';
 import { router, useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import Button from './blog/common/Button.vue';
 
 const props = defineProps({
     posts: Array,
@@ -148,13 +149,13 @@ async function signOut(){
                                 <option value="Admin">Admin</option>
                             </select>
                             <div class="flex gap-2">
-                                <button type="submit" class="rounded bg-blue-600 px-3 py-2 text-white">
+                                <Button  type="submit" class="rounded bg-blue-600 px-3 py-2 text-white">
                                     {{ editingId === null ? 'Create' : 'Update' }}
-                                </button>
+                                </Button>
                                 <button type="button" @click="resetForm" v-if="editingId !== null" class="rounded bg-gray-200 px-3 py-2">
                                     Cancel
                                 </button>
-                            </div>
+                            </div> 
                         </form>
 
                         <div class="overflow-x-auto">
