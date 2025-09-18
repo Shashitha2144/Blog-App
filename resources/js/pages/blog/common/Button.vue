@@ -22,7 +22,6 @@ const classes = computed(() => {
     secondary: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
     danger: 'bg-red-600 text-white hover:bg-red-700'
   };
-  console.log([base, sizeMap[props.size!], variantMap[props.variant!]].join(' '))
   return [base, sizeMap[props.size!], variantMap[props.variant!]].join(' ');
 });
 </script>

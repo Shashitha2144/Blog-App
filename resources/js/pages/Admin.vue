@@ -104,7 +104,7 @@ async function signOut(){
             <header class="mb-6 flex items-center justify-between">
                 <h1 class="text-xl font-semibold">Admin Dashboard</h1>
                 <div class="flex items-center gap-3">
-                    <button @click="signOut" class="rounded bg-blue-600 px-3 py-1 text-sm text-white">Sign out</button>
+                    <Button variant="danger" @click="signOut" >Sign out</Button>
                 </div>
             </header>
 
@@ -152,9 +152,9 @@ async function signOut(){
                                 <Button  type="submit" class="rounded bg-blue-600 px-3 py-2 text-white">
                                     {{ editingId === null ? 'Create' : 'Update' }}
                                 </Button>
-                                <button type="button" @click="resetForm" v-if="editingId !== null" class="rounded bg-gray-200 px-3 py-2">
+                                <Button type="Button" @click="resetForm" v-if="editingId !== null" class="rounded bg-gray-200 px-3 py-2">
                                     Cancel
-                                </button>
+                                </Button>
                             </div> 
                         </form>
 
@@ -175,10 +175,10 @@ async function signOut(){
                                         <td class="py-2 capitalize">{{ u.role }}</td>
                                         <td class="py-2">
                                             <div class="flex gap-2">
-                                                <button @click="editUser(u)" class="rounded bg-yellow-100 px-2 py-1 text-sm">Edit</button>
-                                                <button @click="deleteUser(u.id)" class="rounded bg-red-100 px-2 py-1 text-sm text-red-700">
+                                                <Button @click="editUser(u)" class="rounded bg-yellow-100 px-2 py-1 text-sm">Edit</Button>
+                                                <Button @click="deleteUser(u.id)" class="rounded bg-red-100 px-2 py-1 text-sm text-red-700">
                                                     Delete
-                                                </button>
+                                                </Button>
                                             </div>
                                         </td>
                                     </tr>
@@ -220,17 +220,17 @@ async function signOut(){
                                         </td>
                                         <td class="py-2">
                                             <div class="flex gap-2">
-                                                <button
+                                                <Button
                                                     v-if="!p.approved"
                                                     @click="approvePost(p.id)"
                                                     class="rounded bg-green-600 px-2 py-1 text-sm text-white"
                                                 >
                                                     Approve
-                                                </button>
-                                                <button @click="deletePost(p.id)" class="rounded bg-red-100 px-2 py-1 text-sm text-red-700">
+                                                </Button>
+                                                <Button @click="deletePost(p.id)" class="rounded bg-red-100 px-2 py-1 text-sm text-red-700">
                                                     Delete
-                                                </button>
-                                                <button @click="viewPost(p)" class="rounded bg-blue-100 px-2 py-1 text-sm text-blue-700">View</button>
+                                                </Button>
+                                                <Button @click="viewPost(p)" class="rounded bg-blue-100 px-2 py-1 text-sm text-blue-700">View</Button>
                                             </div>
                                         </td>
                                     </tr>
